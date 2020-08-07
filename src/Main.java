@@ -141,7 +141,7 @@ public class Main {
 
         //Prediction number of goals of HOME TEAM FC KOLN
         double homeTeamPredictedNumberOfGoals = attackStrengthHomeTeam * defenceStrengthAwayTeam * avgGoalsHome;
-        System.out.println("Predicted Team Number Of Goals is " + decimalFormat.format(homeTeamPredictedNumberOfGoals));
+        System.out.println("Predicted Home Team Number Of Goals is " + decimalFormat.format(homeTeamPredictedNumberOfGoals));
 
         //Predictions from 0 to 10 for FC KOLN
         double[] predictionScoresHome = new double[11];
@@ -178,7 +178,7 @@ public class Main {
         else System.out.println(";   Attack Strength is the same as average");
 
         //2
-        double kolnAvgHomeConceded = kolnSummaryHomeConceded / countKolnHomeMatches;
+        double kolnAvgHomeConceded = (double) kolnSummaryHomeConceded / countKolnHomeMatches;
         System.out.println("*** Average count of conceded of Koln Home Matches is " + decimalFormat.format(kolnAvgHomeConceded));
 
 
@@ -194,7 +194,8 @@ public class Main {
 
         //Prediction number of goals of AWAY TEAM FREIBURG
         double awayTeamPredictedNumberOfGoals = attackStrengthAwayTeam * defenceStrengthHomeTeam * avgGoalsAway;
-        System.out.println("Predicted Team Number Of Goals is " + decimalFormat.format(awayTeamPredictedNumberOfGoals));
+
+        System.out.println("Predicted Away Team Number Of Goals is " + decimalFormat.format(awayTeamPredictedNumberOfGoals));
 
         //Predictions from 0 to 10 for FREIBURG
         double[] predictionScoresAway = new double[11];

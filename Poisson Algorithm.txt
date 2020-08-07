@@ -1,0 +1,38 @@
+Obstawianie zakładów piłkarskich
+1. Obliczanie siły ataku i obrony:
+1.a) ustalenie średniej liczby goli strzelonych na mecz - zarówno dla gospodarzy, jak i gości.
+
+Średnia strzelonych bramek u siebie = łączna liczba bramek strzelonych u siebie w sezonie / łączna liczba meczów u siebie
+Średnia strzelonych goli na wyjeździe = całkowita liczba bramek strzelonych na wyjeździe w sezonie / łączna liczba meczów na wyjeździe
+
+Dla naszego przykładu sezon 2019/20 Premier League wynosi średnio:
+Średnia liczba bramek strzelonych przez gospodarzy: 508/306 = 1,66 gola na mecz
+Średnia liczba bramek strzelonych przez gości: 474/306 = 1,549 goli na mecz
+
+1.b) określenie średniej liczby straconych bramek na mecz - zarówno dla gospodarzy, jak i gości - która jest przeciwieństwem średniej liczby bramek strzelanych na mecz.
+Średnia liczba bramek straconych przez gospodarzy: 474/306 = 1,208 goli na mecz
+Średnia liczba bramek straconych przez gości: 508/306 = 1,492 gola na mecz
+
+Obliczanie siły ataku drużyny-gospodarza:
+KROK1. Średnia gole gospodarza na mecz u siebie = Liczba bramek strzelonych u siebie w zeszłym sezonie przez gospodarza / liczba rozegranych meczów u siebie  28/17=1.647
+KROK2. Siła ataku gospodarzy= Średnia gole gospodarza na mecz u siebie / Średnia liczba bramek strzelonych przez gospodarzy 1.647/1.66=0.992    (0.8% gorzej niż średni wynik)
+	
+Obliczanie siły obronnej drużyny-gości:
+KROK1. Średnia liczba straconych goli gości na mecz na wyjeździe = Liczba bramek straconych na wyjeździe w zeszłym sezonie przez drużynę gości / liczba rozegranych meczów wyjazdowych przez tę drużynę
+30/17=1.765
+KROK2. Siła obronna gości = Średnia liczba straconych goli gości na mecz na wyjeździe / średnia liczba straconych goli na wyjeździe na mecz (częściowo czerwone bo to odwrotność strzelonych goli gospodarzy)
+1.765/1.66=1.063 (6.3% gorzej niż średni wynik)
+
+Przewidywanie oczekiwanych bramek gospodarzy:
+	Szacowana ilość goli zdobyta przez gospodarzy = Siła ataku gospodarzy * Siła obronna gości * Średnia liczba bramek strzelonych przez gospodarzy 0.992*1.063*1.66=1.751
+
+Obliczanie siły ataku gości:
+KROK1. Średnie gole gości na mecz na wyjeździe = Liczba bramek strzelonych na wyjeździe w zeszłym sezonie przez gości / liczba rozegranych meczów wyjazdowych 25/17=1.471
+KROK2. Siła ataku gości = Średnie gole gości na mecz na wyjeździe / Średnia liczba bramek strzelonych przez gości 1.471/1.549=0,949 (5.1% gorzej niż średni wynik)
+	
+Obliczanie siły obronnej gospodarzy:
+KROK1. Średnia liczba straconych bramek gospodarzy na mecz u siebie   = liczba straconych goli gospodarzy na mecz u siebie / liczba meczów u siebie. 27/17=1.588
+KROK2. Siła obrony gospodarzy = Średnia liczba straconych bramek gospodarzy na mecz u siebie   / średnia liczba bramek w lidze gospodarzy na mecz 1.588/1.549=1.025 (2.5% gorzej niż średni wynik)
+
+Przewidywanie oczekiwanych bramek drużyny gości
+szacowana ilość goli zdobyta przez gości = Siła ataku gości * Siła obrony gospodarzy * Średnia strzelonych goli na wyjeździe   0.949*1.025*1.549=1.508
