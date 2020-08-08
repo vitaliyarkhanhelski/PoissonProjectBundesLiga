@@ -47,7 +47,8 @@ public class IO {
     public static String inputTeamName(List<String> allTeamsList, boolean homeTeam, String potentialDuplicate) {
         // check letters spelling
         String teamName;
-       String teamType = homeTeam?"Home":"Away";
+        String teamType = homeTeam ? "Home" : "Away";
+
         List<String> allTeamsListToLowerCase = new LinkedList<>();
         for (int i = 0; i < allTeamsList.size(); i++) {
             allTeamsListToLowerCase.add(allTeamsList.get(i).toLowerCase());
@@ -58,21 +59,18 @@ public class IO {
         boolean allOk;
         do {
             allOk = true;
-            System.out.println("Enter "+teamType+" Team name:");
+            System.out.println("Enter " + teamType + " Team name:");
             teamName = scanner.nextLine();
             if (teamName.toLowerCase().equals(potentialDuplicate.toLowerCase())) {
                 System.out.println("Team already chosen, Try another!");
-                allOk=false;
-            }
-            else if (!allTeamsListToLowerCase.contains(teamName.toLowerCase())) {
+                allOk = false;
+            } else if (!allTeamsListToLowerCase.contains(teamName.toLowerCase())) {
                 System.out.println("No such Team, Try again!");
                 allOk = false;
             }
         } while (!allOk);
 
-        teamName=allTeamsList.get(allTeamsListToLowerCase.indexOf(teamName.toLowerCase()));
-
-
+        teamName = allTeamsList.get(allTeamsListToLowerCase.indexOf(teamName.toLowerCase()));
 
         return teamName;
     }
@@ -87,8 +85,8 @@ public class IO {
         TeamsData data = new TeamsData();
 
         //enter Home Team and Away Team and checks spelling
-        data.setHomeTeam(IO.inputTeamName(allTeamsList,true, ""));
-        data.setAwayTeam(IO.inputTeamName(allTeamsList,false, data.getHomeTeam()));
+        data.setHomeTeam(IO.inputTeamName(allTeamsList, true, ""));
+        data.setAwayTeam(IO.inputTeamName(allTeamsList, false, data.getHomeTeam()));
 
         BufferedReader br = null;
         String line = "";
@@ -115,7 +113,7 @@ public class IO {
                     data.setAllHomeGoals(data.getAllHomeGoals() + Integer.valueOf(split[5]));
                     data.setAllAwayGoals(data.getAllAwayGoals() + Integer.valueOf(split[6]));
 
-                    //collect HOME DATA
+                    //collect HOME TEAM DATA
                     if (split[3].equals(data.getHomeTeam())) {
                         //making list of all the matches of home team
                         data.setHomeTeamMatchesList(new MatchData(split[3], split[4], split[5], split[6]));
@@ -124,7 +122,7 @@ public class IO {
                         data.setSummaryHomeConceded(data.getSummaryHomeConceded() + Integer.valueOf(split[6]));
                     }
 
-                    //collect AWAY DATA
+                    //collect AWAY TEAM DATA
                     if (split[4].equals(data.getAwayTeam())) {
                         //making list of all the matches of away team
                         data.setAwayTeamMatchesList(new MatchData(split[3], split[4], split[5], split[6]));

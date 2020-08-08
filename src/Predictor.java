@@ -68,7 +68,7 @@ public class Predictor {
         }
         System.out.println();
         System.out.println("___________________FINAL PREDICTED SCORE IS:____________");
-        System.out.println("\"" + data.getHomeTeam() + "\" (Home) - " + "\"" + data.getHomeTeam() + "\" (Away) is   " + x + " : " + y);
+        System.out.println("\"" + data.getHomeTeam() + "\" (Home) - " + "\"" + data.getAwayTeam() + "\" (Away) is   " + x + " : " + y);
     }
 
 }

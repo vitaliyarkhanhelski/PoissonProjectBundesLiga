@@ -6,9 +6,7 @@ public class Main {
         String csvFile = "D1.csv";
         String cvsSplitBy = ",";
 
-
         //print file D1.csv to console and collect all the data
-
         TeamsData data = IO.collectData(csvFile, cvsSplitBy);
 
         String homeTeam = data.getHomeTeam();
