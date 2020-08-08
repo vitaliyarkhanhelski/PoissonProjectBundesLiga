@@ -44,7 +44,7 @@ public class IO {
     }
 
 
-    public static String inputTeamName(List<String> allTeamsList, boolean homeTeam) {
+    public static String inputTeamName(List<String> allTeamsList, boolean homeTeam, String potentialDuplicate) {
         // check letters spelling
         String teamName;
        String teamType = homeTeam?"Home":"Away";
@@ -55,12 +55,20 @@ public class IO {
 
         //Provide Home Team and Away Team
         Scanner scanner = new Scanner(System.in);
+        boolean allOk;
         do {
+            allOk = true;
             System.out.println("Enter "+teamType+" Team name:");
             teamName = scanner.nextLine();
-            if (!allTeamsListToLowerCase.contains(teamName.toLowerCase()))
+            if (teamName.toLowerCase().equals(potentialDuplicate.toLowerCase())) {
+                System.out.println("Team already chosen, Try another!");
+                allOk=false;
+            }
+            else if (!allTeamsListToLowerCase.contains(teamName.toLowerCase())) {
                 System.out.println("No such Team, Try again!");
-        } while (!allTeamsListToLowerCase.contains(teamName.toLowerCase()));
+                allOk = false;
+            }
+        } while (!allOk);
 
         teamName=allTeamsList.get(allTeamsListToLowerCase.indexOf(teamName.toLowerCase()));
 
@@ -79,8 +87,8 @@ public class IO {
         TeamsData data = new TeamsData();
 
         //enter Home Team and Away Team and checks spelling
-        data.setHomeTeam(IO.inputTeamName(allTeamsList,true));
-        data.setAwayTeam(IO.inputTeamName(allTeamsList,false));
+        data.setHomeTeam(IO.inputTeamName(allTeamsList,true, ""));
+        data.setAwayTeam(IO.inputTeamName(allTeamsList,false, data.getHomeTeam()));
 
         BufferedReader br = null;
         String line = "";
