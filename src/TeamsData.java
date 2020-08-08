@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class FootballData {
+public class TeamsData {
     private String homeTeam;
     private String awayTeam;
 
@@ -17,8 +17,8 @@ public class FootballData {
     private int summaryHomeConceded = 0;
     private int summaryAwayConceded = 0;
 
-    private List<FootballTeam> homeTeamMatchesList = new LinkedList<>();
-    private List<FootballTeam> awayTeamMatchesList = new LinkedList<>();
+    private List<MatchData> homeTeamMatchesList = new LinkedList<>();
+    private List<MatchData> awayTeamMatchesList = new LinkedList<>();
 
     public String getHomeTeam() {
         return homeTeam;
@@ -108,22 +108,22 @@ public class FootballData {
         this.summaryAwayConceded = summaryAwayConceded;
     }
 
-    public void setHomeTeamMatchesList(FootballTeam footballTeam) {
-        homeTeamMatchesList.add(footballTeam);
+    public void setHomeTeamMatchesList(MatchData matchData) {
+        homeTeamMatchesList.add(matchData);
     }
 
-    public void setAwayTeamMatchesList(FootballTeam footballTeam) {
-        awayTeamMatchesList.add(footballTeam);
+    public void setAwayTeamMatchesList(MatchData matchData) {
+        awayTeamMatchesList.add(matchData);
     }
 
     public void printHomeTeamMatches() {
-        for (FootballTeam i : homeTeamMatchesList)
+        for (MatchData i : homeTeamMatchesList)
             i.printResult();
         System.out.println("------------------------------------------------------------------------------------_|");
     }
 
     public void printAwayTeamMatches() {
-        for (FootballTeam i : awayTeamMatchesList)
+        for (MatchData i : awayTeamMatchesList)
             i.printResult();
         System.out.println("------------------------------------------------------------------------------------_|");
     }

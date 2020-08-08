@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Start {
+public class IO {
 
     public static List<String> getAllTeamsList(String csvFile, String cvsSplitBy) {
         //print a list of teams
@@ -44,10 +44,10 @@ public class Start {
     }
 
 
-    public static FootballData enterHomeAwayTeams(FootballData data, List<String> allTeamsList) {
+    public static String inputTeamName(List<String> allTeamsList, boolean homeTeam) {
         // check letters spelling
-        String homeTeam;
-        String awayTeam;
+        String teamName;
+       String teamType = homeTeam?"Home":"Away";
         List<String> allTeamsListToLowerCase = new LinkedList<>();
         for (int i = 0; i < allTeamsList.size(); i++) {
             allTeamsListToLowerCase.add(allTeamsList.get(i).toLowerCase());
@@ -56,28 +56,32 @@ public class Start {
         //Provide Home Team and Away Team
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("Enter Home Team name:");
-            homeTeam = scanner.nextLine();
-            if (!allTeamsListToLowerCase.contains(homeTeam.toLowerCase()))
+            System.out.println("Enter "+teamType+" Team name:");
+            teamName = scanner.nextLine();
+            if (!allTeamsListToLowerCase.contains(teamName.toLowerCase()))
                 System.out.println("No such Team, Try again!");
-        } while (!allTeamsListToLowerCase.contains(homeTeam.toLowerCase()));
+        } while (!allTeamsListToLowerCase.contains(teamName.toLowerCase()));
 
-        data.setHomeTeam(allTeamsList.get(allTeamsListToLowerCase.indexOf(homeTeam.toLowerCase())));
+        teamName=allTeamsList.get(allTeamsListToLowerCase.indexOf(teamName.toLowerCase()));
 
-        do {
-            System.out.println("Enter Away Team name:");
-            awayTeam = scanner.nextLine();
-            if (!allTeamsListToLowerCase.contains(awayTeam.toLowerCase()))
-                System.out.println("No such Team, Try again!");
-        } while (!allTeamsListToLowerCase.contains(awayTeam.toLowerCase()));
 
-        data.setAwayTeam(allTeamsList.get(allTeamsListToLowerCase.indexOf(awayTeam.toLowerCase())));
 
-        return data;
+        return teamName;
     }
 
 
-    public static FootballData printFileAndCollectData(FootballData data, String csvFile, String cvsSplitBy) {
+    public static TeamsData collectData(String csvFile, String cvsSplitBy) {
+
+        //shows all teams to console and write it to list
+        List<String> allTeamsList = new LinkedList<>(getAllTeamsList(csvFile, cvsSplitBy));
+
+        //create object to collect all the data in one place
+        TeamsData data = new TeamsData();
+
+        //enter Home Team and Away Team and checks spelling
+        data.setHomeTeam(IO.inputTeamName(allTeamsList,true));
+        data.setAwayTeam(IO.inputTeamName(allTeamsList,false));
+
         BufferedReader br = null;
         String line = "";
         boolean flag = true;
@@ -106,7 +110,7 @@ public class Start {
                     //collect HOME DATA
                     if (split[3].equals(data.getHomeTeam())) {
                         //making list of all the matches of home team
-                        data.setHomeTeamMatchesList(new FootballTeam(split[3], split[4], split[5], split[6]));
+                        data.setHomeTeamMatchesList(new MatchData(split[3], split[4], split[5], split[6]));
                         data.setCountHomeMatches(data.getCountHomeMatches() + 1);
                         data.setSummaryHomeGoals(data.getSummaryHomeGoals() + Integer.valueOf(split[5]));
                         data.setSummaryHomeConceded(data.getSummaryHomeConceded() + Integer.valueOf(split[6]));
@@ -115,7 +119,7 @@ public class Start {
                     //collect AWAY DATA
                     if (split[4].equals(data.getAwayTeam())) {
                         //making list of all the matches of away team
-                        data.setAwayTeamMatchesList(new FootballTeam(split[3], split[4], split[5], split[6]));
+                        data.setAwayTeamMatchesList(new MatchData(split[3], split[4], split[5], split[6]));
                         data.setCountAwayMatches(data.getCountAwayMatches() + 1);
                         data.setSummaryAwayGoals(data.getSummaryAwayGoals() + Integer.valueOf(split[6]));
                         data.setSummaryAwayConceded(data.getSummaryAwayConceded() + Integer.valueOf(split[5]));

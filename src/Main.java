@@ -1,6 +1,3 @@
-import java.util.LinkedList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
 
@@ -9,17 +6,10 @@ public class Main {
         String csvFile = "D1.csv";
         String cvsSplitBy = ",";
 
-        //shows all teams to console and write it to list
-        List<String> allTeamsList = new LinkedList<>(Start.getAllTeamsList(csvFile, cvsSplitBy));
-
-        //create object to collect all the data in one place
-        FootballData data = new FootballData();
-
-        //enter Home Team and Away Team and checks spelling
-        data = Start.enterHomeAwayTeams(data, allTeamsList);
 
         //print file D1.csv to console and collect all the data
-        data = Start.printFileAndCollectData(data, csvFile, cvsSplitBy);
+
+        TeamsData data = IO.collectData(csvFile, cvsSplitBy);
 
         String homeTeam = data.getHomeTeam();
         String awayTeam = data.getAwayTeam();
@@ -82,7 +72,7 @@ public class Main {
         System.out.println("Predicted \"" + homeTeam + "\" Home Team Number Of Goals is " + Format.form(homeTeamPredictedNumberOfGoals));
 
         //Predictions from 0 to 10 for Home Team
-        double[] predictionScoresHomeArray = EndCalculate.getPredictionsArray(numberOfGoalsPrediction, homeTeamPredictedNumberOfGoals);
+        double[] predictionScoresHomeArray = Predictor.getPredictionsArray(numberOfGoalsPrediction, homeTeamPredictedNumberOfGoals);
 
         //AWAY TEAM DATA
         System.out.println("---------------------All \"" + awayTeam + "\" Matches-----------------------------------------_");
@@ -118,13 +108,13 @@ public class Main {
         System.out.println("Predicted \"" + awayTeam + "\" Away Team Number Of Goals is " + Format.form(awayTeamPredictedNumberOfGoals));
 
         //Predictions from 0 to 10 for AWAY TEAM
-        double[] predictionScoresAwayArray = EndCalculate.getPredictionsArray(numberOfGoalsPrediction, awayTeamPredictedNumberOfGoals);
+        double[] predictionScoresAwayArray = Predictor.getPredictionsArray(numberOfGoalsPrediction, awayTeamPredictedNumberOfGoals);
 
         //FINAL RESULTS
         //print 2-dimension array with predictions
-        double[][] results = EndCalculate.createPredictTable(numberOfGoalsPrediction, predictionScoresHomeArray, predictionScoresAwayArray, data);
+        double[][] results = Predictor.createPredictTable(numberOfGoalsPrediction, predictionScoresHomeArray, predictionScoresAwayArray, data);
 
         //provide final result - PREDICTED SCORE
-        EndCalculate.printFinalPredictedScore(numberOfGoalsPrediction, results, data);
+        Predictor.printFinalPredictedScore(numberOfGoalsPrediction, results, data);
     }
 }

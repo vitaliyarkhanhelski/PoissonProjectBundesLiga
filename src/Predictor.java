@@ -1,9 +1,9 @@
-public class EndCalculate {
+public class Predictor {
 
     public static double[][] createPredictTable(int numberOfGoalsPrediction,
                                                 double[] predictionScoresHomeArray,
                                                 double[] predictionScoresAwayArray,
-                                                FootballData data) {
+                                                TeamsData data) {
         System.out.println("______________________________RESULTS OF PREDICTIONS FROM 0 TO 10 GOALS:_______________________________________________________");
         //CREATING A TABLE
         double[][] results = new double[numberOfGoalsPrediction][numberOfGoalsPrediction];
@@ -54,7 +54,7 @@ public class EndCalculate {
     }
 
 
-    public static void printFinalPredictedScore(int numberOfGoalsPrediction, double[][] results, FootballData data) {
+    public static void printFinalPredictedScore(int numberOfGoalsPrediction, double[][] results, TeamsData data) {
         double max = 0;
         int x = 0;
         int y = 0;

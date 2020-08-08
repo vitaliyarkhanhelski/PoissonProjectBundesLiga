@@ -1,10 +1,10 @@
-public class FootballTeam {
+public class MatchData {
     private String homeTeam;
     private String awayTeam;
     private String scoreForHomeTeam;
     private String scoreForAwayTeam;
 
-    public FootballTeam(String homeTeam, String awayTeam, String scoreForHomeTeam, String scoreForAwayTeam) {
+    public MatchData(String homeTeam, String awayTeam, String scoreForHomeTeam, String scoreForAwayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.scoreForHomeTeam = scoreForHomeTeam;
@@ -29,7 +29,7 @@ public class FootballTeam {
 
     @Override
     public String toString() {
-        return "FootballTeam{" +
+        return "MatchData{" +
                 "homeTeam='" + homeTeam + '\'' +
                 ", awayTeam='" + awayTeam + '\'' +
                 ", scoreForHomeTeam='" + scoreForHomeTeam + '\'' +
