@@ -1,8 +1,8 @@
 public class FootballTeam {
-    private final String homeTeam;
-    private final String awayTeam;
-    private final String scoreForHomeTeam;
-    private final String scoreForAwayTeam;
+    private String homeTeam;
+    private String awayTeam;
+    private String scoreForHomeTeam;
+    private String scoreForAwayTeam;
 
     public FootballTeam(String homeTeam, String awayTeam, String scoreForHomeTeam, String scoreForAwayTeam) {
         this.homeTeam = homeTeam;

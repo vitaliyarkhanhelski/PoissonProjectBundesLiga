@@ -1,285 +1,130 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
+    public static void main(String[] args) {
 
-    public static void main(String[] args) throws MalformedURLException {
+        final int numberOfGoalsPrediction = 11;
 
-        String csvFile = "https://www.football-data.co.uk/mmz4281/1920/D1.csv";
-        URL stockURL = new URL(csvFile);
-        BufferedReader br = null;
-        String line = "";
+        String csvFile = "D1.csv";
         String cvsSplitBy = ",";
-        boolean flag = true;
 
-        int allMatchesCount = 0;
-        int allHomeGoals = 0;
-        int allAwayGoals = 0;
+        //shows all teams to console and write it to list
+        List<String> allTeamsList = new LinkedList<>(Start.getAllTeamsList(csvFile, cvsSplitBy));
 
-        int countKolnHomeMatches = 0;
-        int countFreiburgAwayMatches = 0;
-        int kolnSummaryHomeGoals = 0;
-        int freiburgSummaryAwayGoals = 0;
+        //create object to collect all the data in one place
+        FootballData data = new FootballData();
 
-        int kolnSummaryHomeConceded = 0;
-        int freiburgSummaryAwayConceded = 0;
+        //enter Home Team and Away Team and checks spelling
+        data = Start.enterHomeAwayTeams(data, allTeamsList);
 
-        List<FootballTeam> kolnHomeMatches = new LinkedList<>();
-        List<FootballTeam> freiburgAwayMatches = new LinkedList<>();
+        //print file D1.csv to console and collect all the data
+        data = Start.printFileAndCollectData(data, csvFile, cvsSplitBy);
 
-        try {
+        String homeTeam = data.getHomeTeam();
+        String awayTeam = data.getAwayTeam();
 
-            br = new BufferedReader(new InputStreamReader(stockURL.openStream()));
-            while ((line = br.readLine()) != null) {
+        int allMatchesCount = data.getAllMatchesCount();
+        int allHomeGoals = data.getAllHomeGoals();
+        int allAwayGoals = data.getAllAwayGoals();
 
-                // use comma as separator
-                String[] d1 = line.split(cvsSplitBy);
-                if (flag) {
-                    System.out.printf("Home Team   %-20s| Away Team   %-20s|   Score= %s : %s\n", "", "", d1[5], d1[6]);
-                    flag = false;
-                    System.out.println("----------------------------------------------------------------------------------");
-                } else {
-                    System.out.printf("Home Team = %-20s| Away Team = %-20s|   Score= %s : %s\n", d1[3], d1[4], d1[5], d1[6]);
-                    allMatchesCount++;
-                    allHomeGoals += Integer.valueOf(d1[5]);
-                    allAwayGoals += Integer.valueOf(d1[6]);
+        int countHomeTeamMatches = data.getCountHomeMatches();
+        int countAwayTeamMatches = data.getCountAwayMatches();
+        int summaryHomeTeamGoals = data.getSummaryHomeGoals();
+        int summaryAwayTeamGoals = data.getSummaryAwayGoals();
+        int summaryHomeTeamConceded = data.getSummaryHomeConceded();
+        int summaryAwayTeamConceded = data.getSummaryAwayConceded();
 
-// KOLN HOME DATA
-                    if (d1[3].equals("FC Koln")) {
-                        kolnHomeMatches.add(new FootballTeam(d1[3], d1[4], d1[5], d1[6]));
-                        countKolnHomeMatches++;
-                        kolnSummaryHomeGoals += Integer.valueOf(d1[5]);
-                        kolnSummaryHomeConceded += Integer.valueOf(d1[6]);
-                    }
-
-//FREIBURG AWAY DATA
-                    if (d1[4].equals("Freiburg")) {
-                        freiburgAwayMatches.add(new FootballTeam(d1[3], d1[4], d1[5], d1[6]));
-                        countFreiburgAwayMatches++;
-                        freiburgSummaryAwayGoals += Integer.valueOf((d1[6]));
-                        freiburgSummaryAwayConceded += Integer.valueOf((d1[5]));
-                    }
-
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        System.out.println("----------------------------------------------------------------------------------");
-        System.out.println("________________________________________SEASON:____________________________________");
-        System.out.println("All matches count is " + allMatchesCount);
+        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("________________________________________SEASON 2019/2020:______________________________");
+        System.out.println("All matches count in season 2019/2020 is " + allMatchesCount);
         System.out.println("All matches home goals is " + allHomeGoals);
         System.out.println("All matches away goals is " + allAwayGoals);
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.###");
-        DecimalFormat decimalFormat2 = new DecimalFormat("#.#");
-
-        double avgGoalsHome = (double) allHomeGoals / allMatchesCount;
-        double avgGoalsAway = (double) allAwayGoals / allMatchesCount;
-        System.out.println("Average goals home during season is " + decimalFormat.format(avgGoalsHome));
-        System.out.println("Average goals away during season is " + decimalFormat.format(avgGoalsAway));
-
+        double avgGoalsHomeAllTeams = (double) allHomeGoals / allMatchesCount;
+        double avgGoalsAwayAllTeams = (double) allAwayGoals / allMatchesCount;
+        System.out.println("Average goals home during season is " + Format.form(avgGoalsHomeAllTeams));
+        System.out.println("Average goals away during season is " + Format.form(avgGoalsAwayAllTeams));
 
         System.out.println();
-        System.out.println("---------------------All FC KOLN Matches---------------------------------------------_");
 
+        //HOME TEAM DATA
+        System.out.println("---------------------All \"" + homeTeam + "\" Matches---------------------------------------------_");
+        data.printHomeTeamMatches();
 
-        for (FootballTeam i : kolnHomeMatches)
-            i.printResult();
-        System.out.println("------------------------------------------------------------------------------------_|");
+        System.out.println("*** Number of \"" + homeTeam + "\" Home Matches is " + countHomeTeamMatches);
+        System.out.println("*** Count of goals of \"" + homeTeam + "\" Home Matches is " + summaryHomeTeamGoals);
+        System.out.println("*** Count of conceded of \"" + homeTeam + "\" Home Matches is " + summaryHomeTeamConceded);
 
-        System.out.println("*** Number of Koln Home Matches is " + countKolnHomeMatches);
-        System.out.println("*** Count of goals of Koln Home Matches is " + kolnSummaryHomeGoals);
-        System.out.println("*** Count of conceded of Koln Home Matches is " + kolnSummaryHomeConceded);
-
-        //0.5
-        double kolnAvgHomeGoals = (double) kolnSummaryHomeGoals / countKolnHomeMatches;
-        System.out.println("*** Average count of goals of Koln Home Matches is " + decimalFormat.format(kolnAvgHomeGoals));
-
+        //Calculation of prediction of number of goals of Home Team
         //1
-        double attackStrengthHomeTeam = kolnAvgHomeGoals / avgGoalsHome;
-        System.out.print("*** Attack Strength of Koln at Home is " + decimalFormat.format(attackStrengthHomeTeam));
+        double avgHomeTeamGoals = (double) summaryHomeTeamGoals / countHomeTeamMatches;
+        System.out.println("*** Average count of goals of \"" + homeTeam + "\" Home Matches is " + Format.form(avgHomeTeamGoals));
 
-        if (attackStrengthHomeTeam < 1.0)
-            System.out.println(";   " + decimalFormat2.format((1.0 - attackStrengthHomeTeam) * 100) + "% worse than average");
-        else if (attackStrengthHomeTeam > 1.0)
-            System.out.println(";   " + decimalFormat2.format((attackStrengthHomeTeam - 1) * 100) + "% better than average");
-        else System.out.println(";   Attack Strength is the same as average");
-
-        //2
-        double freiburgAvgAwayConceded = (double) freiburgSummaryAwayConceded / countFreiburgAwayMatches;
-        System.out.println("*** Average count of conceded of Freiburg Away Matches is " + decimalFormat.format(freiburgAvgAwayConceded));
+        //2  Attack Strength of Home Team
+        double attackStrengthHomeTeam = avgHomeTeamGoals / avgGoalsHomeAllTeams;
+        System.out.print("*** Attack Strength of \"" + homeTeam + "\" at Home is " + Format.form(attackStrengthHomeTeam));
+        //compare with avg result
+        CompareStrength.compareAttackStrength(attackStrengthHomeTeam);
 
         //3
-        double defenceStrengthAwayTeam = freiburgAvgAwayConceded / avgGoalsHome;
-        System.out.print("*** Defence Strength of Freiburg away is " + decimalFormat.format(defenceStrengthAwayTeam));
+        double avgAwayTeamConceded = (double) summaryAwayTeamConceded / countAwayTeamMatches;
+        System.out.println("*** Average count of conceded of \"" + awayTeam + "\" Away Matches is " + Format.form(avgAwayTeamConceded));
 
-        if (defenceStrengthAwayTeam < 1.0)
-            System.out.println(";   " + decimalFormat2.format((1.0 - defenceStrengthAwayTeam) * 100) + "% better than average");
-        else if (defenceStrengthAwayTeam > 1.0)
-            System.out.println(";   " + decimalFormat2.format((defenceStrengthAwayTeam - 1) * 100) + "% worse than average");
-        else System.out.println(";   Defence Strength is the same as average");
+        //4 Defence Strength of Away Team
+        double defenceStrengthAwayTeam = avgAwayTeamConceded / avgGoalsHomeAllTeams;
+        System.out.print("*** Defence Strength of \"" + awayTeam + "\" away is " + Format.form(defenceStrengthAwayTeam));
+        //compare with avg result
+        CompareStrength.compareDefenceStrength(defenceStrengthAwayTeam);
 
-        //Prediction number of goals of HOME TEAM FC KOLN
-        double homeTeamPredictedNumberOfGoals = attackStrengthHomeTeam * defenceStrengthAwayTeam * avgGoalsHome;
-        System.out.println("Predicted Home Team Number Of Goals is " + decimalFormat.format(homeTeamPredictedNumberOfGoals));
+        //Prediction number of goals of HOME TEAM
+        double homeTeamPredictedNumberOfGoals = attackStrengthHomeTeam * defenceStrengthAwayTeam * avgGoalsHomeAllTeams;
+        System.out.println("Predicted \"" + homeTeam + "\" Home Team Number Of Goals is " + Format.form(homeTeamPredictedNumberOfGoals));
 
-        //Predictions from 0 to 10 for FC KOLN
-        double[] predictionScoresHome = new double[11];
-        for (int i = 0; i <= 10; i++)
-            predictionScoresHome[i] = predictionScores(i, homeTeamPredictedNumberOfGoals);
+        //Predictions from 0 to 10 for Home Team
+        double[] predictionScoresHomeArray = EndCalculate.getPredictionsArray(numberOfGoalsPrediction, homeTeamPredictedNumberOfGoals);
 
-        for (int i = 0; i <= 10; i++)
-            System.out.println("For " + i + " goals prediction is " + decimalFormat.format(predictionScoresHome[i]));
+        //AWAY TEAM DATA
+        System.out.println("---------------------All \"" + awayTeam + "\" Matches-----------------------------------------_");
+        data.printAwayTeamMatches();
 
-        System.out.println();
-        System.out.println("---------------------All FC FREIBURG Matches-----------------------------------------_");
+        System.out.println("*** Number of \"" + awayTeam + "\" Away Matches is " + countAwayTeamMatches);
+        System.out.println("*** Count of goals of \"" + awayTeam + "\" Away Matches is " + summaryAwayTeamGoals);
+        System.out.println("*** Count of conceded of \"" + awayTeam + "\" Away Matches is " + summaryAwayTeamConceded);
 
-        for (FootballTeam i : freiburgAwayMatches)
-            i.printResult();
-        System.out.println("------------------------------------------------------------------------------------_|");
-
-        System.out.println("*** Number of Freiburg Away Matches is " + countFreiburgAwayMatches);
-        System.out.println("*** Count of goals of Freiburg Away Matches is " + freiburgSummaryAwayGoals);
-        System.out.println("*** Count of conceded of Freiburg Away Matches is " + freiburgSummaryAwayConceded);
-
-        //0.5
-        double freiburgAvgAwayGoals = (double) freiburgSummaryAwayGoals / countFreiburgAwayMatches;
-        System.out.println("*** Average count of goals of Freiburg Away Matches is " + decimalFormat.format(freiburgAvgAwayGoals));
-
+        //Calculation of prediction of number of goals of Away Team
         //1
-        double attackStrengthAwayTeam = freiburgAvgAwayGoals / avgGoalsAway;
-        System.out.print("*** Attack Strength of Freiburg Away is " + decimalFormat.format(attackStrengthAwayTeam));
+        double avgAwayTeamGoals = (double) summaryAwayTeamGoals / countAwayTeamMatches;
+        System.out.println("*** Average count of goals of \"" + awayTeam + "\" Away Matches is " + Format.form(avgAwayTeamGoals));
 
-
-        if (attackStrengthAwayTeam < 1.0)
-            System.out.println(";   " + decimalFormat2.format((1.0 - attackStrengthAwayTeam) * 100) + "% worse than average");
-        else if (attackStrengthAwayTeam > 1.0)
-            System.out.println(";   " + decimalFormat2.format((attackStrengthAwayTeam - 1) * 100) + "% better than average");
-        else System.out.println(";   Attack Strength is the same as average");
-
-        //2
-        double kolnAvgHomeConceded = (double) kolnSummaryHomeConceded / countKolnHomeMatches;
-        System.out.println("*** Average count of conceded of Koln Home Matches is " + decimalFormat.format(kolnAvgHomeConceded));
-
+        //2  Attack Strength of Away Team
+        double attackStrengthAwayTeam = avgAwayTeamGoals / avgGoalsAwayAllTeams;
+        System.out.print("*** Attack Strength of \"" + awayTeam + "\" Away is " + Format.form(attackStrengthAwayTeam));
+        //compare with avg result
+        CompareStrength.compareAttackStrength(attackStrengthAwayTeam);
 
         //3
-        double defenceStrengthHomeTeam = kolnAvgHomeConceded / avgGoalsAway;
-        System.out.print("*** Defence Strength of Freiburg away is " + decimalFormat.format(defenceStrengthHomeTeam));
+        double avgHomeTeamConceded = (double) summaryHomeTeamConceded / countHomeTeamMatches;
+        System.out.println("*** Average count of conceded of \"" + homeTeam + "\" Home Matches is " + Format.form(avgHomeTeamConceded));
 
-        if (defenceStrengthHomeTeam < 1.0)
-            System.out.println(";   " + decimalFormat2.format((1.0 - defenceStrengthHomeTeam) * 100) + "% better than average");
-        else if (defenceStrengthHomeTeam > 1.0)
-            System.out.println(";   " + decimalFormat2.format((defenceStrengthHomeTeam - 1) * 100) + "% worse than average");
-        else System.out.println(";   Defence Strength is the same as average");
+        //4 Defence Strength of Home Team
+        double defenceStrengthHomeTeam = avgHomeTeamConceded / avgGoalsAwayAllTeams;
+        System.out.print("*** Defence Strength of \"" + awayTeam + "\" away is " + Format.form(defenceStrengthHomeTeam));
+        //compare with avg result
+        CompareStrength.compareDefenceStrength(defenceStrengthHomeTeam);
 
-        //Prediction number of goals of AWAY TEAM FREIBURG
-        double awayTeamPredictedNumberOfGoals = attackStrengthAwayTeam * defenceStrengthHomeTeam * avgGoalsAway;
+        //Prediction number of goals of AWAY TEAM
+        double awayTeamPredictedNumberOfGoals = attackStrengthAwayTeam * defenceStrengthHomeTeam * avgGoalsAwayAllTeams;
+        System.out.println("Predicted \"" + awayTeam + "\" Away Team Number Of Goals is " + Format.form(awayTeamPredictedNumberOfGoals));
 
-        System.out.println("Predicted Away Team Number Of Goals is " + decimalFormat.format(awayTeamPredictedNumberOfGoals));
+        //Predictions from 0 to 10 for AWAY TEAM
+        double[] predictionScoresAwayArray = EndCalculate.getPredictionsArray(numberOfGoalsPrediction, awayTeamPredictedNumberOfGoals);
 
-        //Predictions from 0 to 10 for FREIBURG
-        double[] predictionScoresAway = new double[11];
-        for (int i = 0; i <= 10; i++)
-            predictionScoresAway[i] = predictionScores(i, awayTeamPredictedNumberOfGoals);
+        //FINAL RESULTS
+        //print 2-dimension array with predictions
+        double[][] results = EndCalculate.createPredictTable(numberOfGoalsPrediction, predictionScoresHomeArray, predictionScoresAwayArray, data);
 
-        for (int i = 0; i <= 10; i++)
-            System.out.println("For " + i + " goals prediction is " + decimalFormat.format(predictionScoresAway[i]));
-
-        System.out.println("______________________________RESULTS OF PREDICTIONS FROM 0 TO 10 GOALS:_______________________________________________________");
-
-        //CREATING A TABLE
-        double[][] results = new double[11][11];
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 11; j++) {
-                results[i][j] = predictionScoresAway[i] * predictionScoresHome[j];
-            }
-        }
-
-
-        //1 row
-        System.out.printf("%-10s", "");
-        System.out.printf("|%-9s", " FC KOLN");
-
-
-        for (int i = 0; i <= 10; i++)
-            System.out.printf("|    %-5d", i);
-        System.out.println();
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
-
-
-        //2 row
-        System.out.printf("%-10s", "Freiburg");
-        System.out.printf("|%-9s", "  %");
-
-        for (int i = 0; i <= 10; i++)
-            System.out.printf("| %-8s", decimalFormat2.format(predictionScoresHome[i] * 100) + "%");
-
-        System.out.println();
-
-        //3 row
-
-//PRINTING OF TABLE
-        int n = 0;
-        for (double[] i : results) {
-            System.out.printf("%-10d", n);
-            System.out.printf("| %-8s", decimalFormat2.format(predictionScoresAway[n++] * 100) + "%");
-            for (double j : i) {
-
-                System.out.printf("| %-8s", decimalFormat.format(j * 100) + "%");
-            }
-            System.out.println();
-        }
-
-        double max = 0;
-        int x = 0;
-        int y = 0;
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 11; j++)
-                if (results[i][j] > max) {
-                    max = results[i][j];
-                    x = j;
-                    y = i;
-                }
-        }
-        System.out.println();
-        System.out.println("___________________FINAL PREDICTED SCORE IS:____________");
-        System.out.println("FC Koln (Home) - Freiburg (Away) is   " + x + " : " + y);
-
-
+        //provide final result - PREDICTED SCORE
+        EndCalculate.printFinalPredictedScore(numberOfGoalsPrediction, results, data);
     }
-
-    public static long factorial(int a) {
-        long result = 1;
-        if (a == 0) return result;
-        for (int i = 1; i <= a; i++)
-            result *= i;
-        return result;
-    }
-
-    public static double predictionScores(int k, double a) {
-        double result = 1;
-        result = (Math.pow(a, k) * Math.pow(Math.E, -a)) / factorial(k);
-        return result;
-    }
-
 }
