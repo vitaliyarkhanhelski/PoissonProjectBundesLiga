@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class TeamsData {
+public class TeamData {
     private String homeTeam;
     private String awayTeam;
 

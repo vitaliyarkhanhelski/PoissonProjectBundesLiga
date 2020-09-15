@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class IO {
-
     public static List<String> getAllTeamsList(String csvFile, String cvsSplitBy) {
         //print a list of teams
         Set<String> allTeamsSet = new TreeSet<>();
@@ -20,13 +19,13 @@ public class IO {
             }
             allTeamsList = new LinkedList<>(allTeamsSet);
             System.out.println("List of Teams is as follows:");
-            Format.printDash();
+            Formatting.printDash();
             for (int i = 1; i < allTeamsList.size(); i++) {
                 if ((i != 1) && (i - 1) % 5 == 0) System.out.println();
                 if (i == allTeamsSet.size() - 1) System.out.printf("%-18s\n", allTeamsList.get(i));
                 else System.out.printf("%-18s", allTeamsList.get(i) + ",");
             }
-            Format.printDash();
+            Formatting.printDash();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -76,13 +75,13 @@ public class IO {
     }
 
 
-    public static TeamsData collectData(String csvFile, String cvsSplitBy) {
+    public static TeamData collectData(String csvFile, String cvsSplitBy) {
 
         //shows all teams to console and write it to list
         List<String> allTeamsList = new LinkedList<>(getAllTeamsList(csvFile, cvsSplitBy));
 
         //create object to collect all the data in one place
-        TeamsData data = new TeamsData();
+        TeamData data = new TeamData();
 
         //enter Home Team and Away Team and checks spelling
         data.setHomeTeam(IO.inputTeamName(allTeamsList, true, ""));
@@ -96,7 +95,7 @@ public class IO {
             br = new BufferedReader(new FileReader(csvFile));
             System.out.println();
             System.out.println("Data From Fil, Season 2019/2020:");
-            Format.printDash();
+            Formatting.printDash();
             while ((line = br.readLine()) != null) {
                 String[] split = line.split(cvsSplitBy);
 

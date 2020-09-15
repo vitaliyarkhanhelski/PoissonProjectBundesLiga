@@ -1,7 +1,6 @@
 import java.text.DecimalFormat;
 
-public class Format {
-
+public class Formatting {
     public static DecimalFormat decimalFormat() {
         return new DecimalFormat("#.###");
     }

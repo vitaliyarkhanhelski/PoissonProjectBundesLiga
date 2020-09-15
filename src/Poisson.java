@@ -1,4 +1,5 @@
 public class Poisson {
+
     public static long factorial(int a) {
         long result = 1;
         if (a == 0) return result;
@@ -6,6 +7,7 @@ public class Poisson {
             result *= i;
         return result;
     }
+
 
     public static double predictionScores(int k, double a) {
         double result = 1;

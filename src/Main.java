@@ -7,7 +7,7 @@ public class Main {
         String cvsSplitBy = ",";
 
         //print file D1.csv to console and collect all the data
-        TeamsData data = IO.collectData(csvFile, cvsSplitBy);
+        TeamData data = IO.collectData(csvFile, cvsSplitBy);
 
         String homeTeam = data.getHomeTeam();
         String awayTeam = data.getAwayTeam();
@@ -31,8 +31,8 @@ public class Main {
 
         double avgGoalsHomeAllTeams = (double) allHomeGoals / allMatchesCount;
         double avgGoalsAwayAllTeams = (double) allAwayGoals / allMatchesCount;
-        System.out.println("Average goals home during season is " + Format.form(avgGoalsHomeAllTeams));
-        System.out.println("Average goals away during season is " + Format.form(avgGoalsAwayAllTeams));
+        System.out.println("Average goals home during season is " + Formatting.form(avgGoalsHomeAllTeams));
+        System.out.println("Average goals away during season is " + Formatting.form(avgGoalsAwayAllTeams));
 
         System.out.println();
 
@@ -47,27 +47,27 @@ public class Main {
         //Calculation of prediction of number of goals of Home Team
         //1
         double avgHomeTeamGoals = (double) summaryHomeTeamGoals / countHomeTeamMatches;
-        System.out.println("*** Average count of goals of \"" + homeTeam + "\" Home Matches is " + Format.form(avgHomeTeamGoals));
+        System.out.println("*** Average count of goals of \"" + homeTeam + "\" Home Matches is " + Formatting.form(avgHomeTeamGoals));
 
         //2  Attack Strength of Home Team
         double attackStrengthHomeTeam = avgHomeTeamGoals / avgGoalsHomeAllTeams;
-        System.out.print("*** Attack Strength of \"" + homeTeam + "\" at Home is " + Format.form(attackStrengthHomeTeam));
+        System.out.print("*** Attack Strength of \"" + homeTeam + "\" at Home is " + Formatting.form(attackStrengthHomeTeam));
         //compare with avg result
         CompareStrength.compareAttackStrength(attackStrengthHomeTeam);
 
         //3
         double avgAwayTeamConceded = (double) summaryAwayTeamConceded / countAwayTeamMatches;
-        System.out.println("*** Average count of conceded of \"" + awayTeam + "\" Away Matches is " + Format.form(avgAwayTeamConceded));
+        System.out.println("*** Average count of conceded of \"" + awayTeam + "\" Away Matches is " + Formatting.form(avgAwayTeamConceded));
 
         //4 Defence Strength of Away Team
         double defenceStrengthAwayTeam = avgAwayTeamConceded / avgGoalsHomeAllTeams;
-        System.out.print("*** Defence Strength of \"" + awayTeam + "\" away is " + Format.form(defenceStrengthAwayTeam));
+        System.out.print("*** Defence Strength of \"" + awayTeam + "\" away is " + Formatting.form(defenceStrengthAwayTeam));
         //compare with avg result
         CompareStrength.compareDefenceStrength(defenceStrengthAwayTeam);
 
         //Prediction number of goals of HOME TEAM
         double homeTeamPredictedNumberOfGoals = attackStrengthHomeTeam * defenceStrengthAwayTeam * avgGoalsHomeAllTeams;
-        System.out.println("Predicted \"" + homeTeam + "\" Home Team Number Of Goals is " + Format.form(homeTeamPredictedNumberOfGoals));
+        System.out.println("Predicted \"" + homeTeam + "\" Home Team Number Of Goals is " + Formatting.form(homeTeamPredictedNumberOfGoals));
 
         //Predictions from 0 to 10 for Home Team
         double[] predictionScoresHomeArray = Predictor.getPredictionsArray(numberOfGoalsPrediction, homeTeamPredictedNumberOfGoals);
@@ -80,35 +80,34 @@ public class Main {
         System.out.println("*** Count of goals of \"" + awayTeam + "\" Away Matches is " + summaryAwayTeamGoals);
         System.out.println("*** Count of conceded of \"" + awayTeam + "\" Away Matches is " + summaryAwayTeamConceded);
 
-        //Calculation of prediction of number of goals of Away Team
-        //1
+        //1 Calculation of prediction of number of goals of Away Team
         double avgAwayTeamGoals = (double) summaryAwayTeamGoals / countAwayTeamMatches;
-        System.out.println("*** Average count of goals of \"" + awayTeam + "\" Away Matches is " + Format.form(avgAwayTeamGoals));
+        System.out.println("*** Average count of goals of \"" + awayTeam + "\" Away Matches is " + Formatting.form(avgAwayTeamGoals));
 
         //2  Attack Strength of Away Team
         double attackStrengthAwayTeam = avgAwayTeamGoals / avgGoalsAwayAllTeams;
-        System.out.print("*** Attack Strength of \"" + awayTeam + "\" Away is " + Format.form(attackStrengthAwayTeam));
+        System.out.print("*** Attack Strength of \"" + awayTeam + "\" Away is " + Formatting.form(attackStrengthAwayTeam));
         //compare with avg result
         CompareStrength.compareAttackStrength(attackStrengthAwayTeam);
 
         //3
         double avgHomeTeamConceded = (double) summaryHomeTeamConceded / countHomeTeamMatches;
-        System.out.println("*** Average count of conceded of \"" + homeTeam + "\" Home Matches is " + Format.form(avgHomeTeamConceded));
+        System.out.println("*** Average count of conceded of \"" + homeTeam + "\" Home Matches is " + Formatting.form(avgHomeTeamConceded));
 
         //4 Defence Strength of Home Team
         double defenceStrengthHomeTeam = avgHomeTeamConceded / avgGoalsAwayAllTeams;
-        System.out.print("*** Defence Strength of \"" + awayTeam + "\" away is " + Format.form(defenceStrengthHomeTeam));
+        System.out.print("*** Defence Strength of \"" + awayTeam + "\" away is " + Formatting.form(defenceStrengthHomeTeam));
         //compare with avg result
         CompareStrength.compareDefenceStrength(defenceStrengthHomeTeam);
 
         //Prediction number of goals of AWAY TEAM
         double awayTeamPredictedNumberOfGoals = attackStrengthAwayTeam * defenceStrengthHomeTeam * avgGoalsAwayAllTeams;
-        System.out.println("Predicted \"" + awayTeam + "\" Away Team Number Of Goals is " + Format.form(awayTeamPredictedNumberOfGoals));
+        System.out.println("Predicted \"" + awayTeam + "\" Away Team Number Of Goals is " + Formatting.form(awayTeamPredictedNumberOfGoals));
 
         //Predictions from 0 to 10 for AWAY TEAM
         double[] predictionScoresAwayArray = Predictor.getPredictionsArray(numberOfGoalsPrediction, awayTeamPredictedNumberOfGoals);
 
-        //FINAL RESULTS
+        //FINAL RESULTS:
         //print 2-dimension array with predictions
         double[][] results = Predictor.createPredictTable(numberOfGoalsPrediction, predictionScoresHomeArray, predictionScoresAwayArray, data);
 
